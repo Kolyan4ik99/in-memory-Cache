@@ -1,1 +1,1 @@
-module in-memory-Cache
+module inMemoryCache
