@@ -1,3 +1,3 @@
-module github.com/Kolyan4ik99/in-memory-Cache
+module in-memory-cache
 
 go 1.18
