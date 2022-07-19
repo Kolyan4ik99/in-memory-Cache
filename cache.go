@@ -12,6 +12,13 @@ type CacheInterface interface {
 	Delete(key string) error
 }
 
+type Cache struct {
+	values   map[string]interface{}
+	rate     map[string]int
+	capacity int
+	len      int
+}
+
 func (c *Cache) Set(key string, value interface{}) {
 	_, err := c.findEl(key)
 	if err != nil {
@@ -25,13 +32,6 @@ func (c *Cache) Set(key string, value interface{}) {
 		c.values[key] = value
 	}
 
-}
-
-type Cache struct {
-	values   map[string]interface{}
-	rate     map[string]int
-	capacity int
-	len      int
 }
 
 func (c *Cache) Get(key string) (interface{}, error) {
