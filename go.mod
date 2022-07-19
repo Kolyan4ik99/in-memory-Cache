@@ -1,3 +1,3 @@
-module in-memory-cache
+module inMemoryCache
 
 go 1.18
