@@ -62,5 +62,4 @@ Write commands in your go project
       fmt.Println(err)
     }
     fmt.Println(value)
-
-}
+    }
