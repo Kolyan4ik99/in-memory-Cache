@@ -12,14 +12,14 @@ type CacheInterface interface {
 	Delete(key string) error
 }
 
-type Cache struct {
+type cache struct {
 	values   map[string]interface{}
 	rate     map[string]int
 	capacity int
 	len      int
 }
 
-func (c *Cache) Set(key string, value interface{}) {
+func (c *cache) Set(key string, value interface{}) {
 	_, err := c.findEl(key)
 	if err != nil {
 		if c.len == c.capacity {
@@ -34,7 +34,7 @@ func (c *Cache) Set(key string, value interface{}) {
 
 }
 
-func (c *Cache) Get(key string) (interface{}, error) {
+func (c *cache) Get(key string) (interface{}, error) {
 	el, err := c.findEl(key)
 	if err == nil {
 		c.rate[key] = c.rate[key] + 1
@@ -43,7 +43,7 @@ func (c *Cache) Get(key string) (interface{}, error) {
 	return nil, err
 }
 
-func (c *Cache) Delete(key string) error {
+func (c *cache) Delete(key string) error {
 	_, err := c.findEl(key)
 	if err == nil {
 		c.len--
@@ -53,8 +53,8 @@ func (c *Cache) Delete(key string) error {
 	return err
 }
 
-func New() *Cache {
-	return &Cache{
+func New() *cache {
+	return &cache{
 		values:   make(map[string]interface{}, 50),
 		capacity: 50,
 		len:      0,
@@ -63,7 +63,7 @@ func New() *Cache {
 }
 
 // If element exist err == nil
-func (c *Cache) findEl(item string) (foundItem interface{}, err error) {
+func (c *cache) findEl(item string) (foundItem interface{}, err error) {
 	foundItem, exist := c.values[item]
 	if !exist {
 		err = errors.New(fmt.Sprintf("item not found, key = [%s]", item))
@@ -72,7 +72,7 @@ func (c *Cache) findEl(item string) (foundItem interface{}, err error) {
 	return foundItem, nil
 }
 
-func (c *Cache) flush() {
+func (c *cache) flush() {
 	minRate := math.MaxInt32
 	for _, valueRate := range c.rate {
 		if valueRate < minRate {
