@@ -13,53 +13,41 @@ Write commands in your go project
   go mod download
 ```
 
-## Example
+## Example 1
 
+    cache.Set("userId", 42, time.Second * 5)
 
-	package main
+    userId, err := cache.Get("userId")
+    if err != nil { // err == nil
+        log.Fatal(err)
+    }
+    fmt.Println(userId) // Output: 42
+    
+    time.Sleep(time.Second * 6) // прошло 5 секунд
+    
+    userId = cache.Get("userId")
+    userId, err := cache.Get("userId")
+    if err != nil { // err != nil
+        log.Fatal(err) // сработает этот код
+    }
 
-	import (
-	  "fmt"
-	  "github.com/Kolyan4ik99/inMemoryCache"
-	)
-
-	func main() {
+## Example 2
 
     cache := inMemoryCache.New()
-    
-    cache.Set("User1", 5000)
-    
-    value, err := cache.Get("User1")
-    
-    if err != nil {
-        fmt.Println(err)
-    }
-    fmt.Println(value)
-    
-    cache.Set("Vasya", 1592)
-    
-    value, err = cache.Get("Vasya")
-    if err != nil {
-        fmt.Println(err)
-    }
-    fmt.Println(value)
-    
-    value, err = cache.Get("User1")
-    if err != nil {
-        fmt.Println(err)
-    }
-    fmt.Println(value)
 
-    err = cache.Delete("User1")
-    if err != nil {
-      fmt.Println(err)
-    } else {
-      fmt.Println("Item successful delete")
+    cache.Set("userId", 42, time.Second*5)
+    userId, err := cache.Get("userId")
+    if err != nil { // err == nil
+        log.Fatal(err)
     }
+    fmt.Println(userId) // Output: 42
 
-    value, err = cache.Get("User1")
-    if err != nil {
-      fmt.Println(err)
+    cache.Set("userId", 52, time.Second*8)
+
+    time.Sleep(time.Second * 7) // прошло 6 секунд
+    userId, err = cache.Get("userId")
+    if err != nil { // err == nil
+        log.Fatal(err)
     }
-    fmt.Println(value)
-    }
+    fmt.Println(userId) // Output: 52
+    
